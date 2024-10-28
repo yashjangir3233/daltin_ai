@@ -14,10 +14,6 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json({extended:true}));
-app.use(userRouter)
-
-app.use('/fileview',express.static('./upload/images'));
-
 const URL =`mongodb+srv://maajack676:mongodbkapassword@cluster0.5olym.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
 const mongoConnection = async () => {
     try{
@@ -28,6 +24,10 @@ const mongoConnection = async () => {
     }
 }
 mongoConnection();
+app.use(userRouter)
+
+app.use('/fileview',express.static('./upload/images'));
+
 app.listen(4000,() => {
     console.log('server running on port 4000')
 })
