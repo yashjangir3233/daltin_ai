@@ -35,6 +35,9 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import userRouter from './routes/user.js'
+import cors from 'cors'
+import bodyParser from 'body-parser'
+
 
 const app = express()
 const PORT = 8000
