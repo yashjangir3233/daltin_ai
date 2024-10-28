@@ -34,7 +34,7 @@
 // const express = require('express');
 import express from 'express'
 import mongoose from 'mongoose'
-import user from './Schema/user.js'
+import userRouter from './routes/user.js'
 
 const app = express()
 const PORT = 8000
@@ -50,8 +50,10 @@ const mongoConnection = async () => {
 }
 mongoConnection();
 
+app.use('/',userRouter)
+
 app.get('/', (req, res) => {
-  res.send('Hello World updated')
+  res.send('Hello World updated again')
 })
 
 app.get('/about', (req, res) => {
