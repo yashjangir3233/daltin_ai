@@ -33,16 +33,33 @@
 
 // const express = require('express');
 import express from 'express'
+import mongoose from 'mongoose'
+import user from './Schema/user.js'
 
 const app = express()
 const PORT = 8000
 
+const URL =`mongodb+srv://maajack676:mongodbkapassword@cluster0.5olym.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
+const mongoConnection = async () => {
+    try{
+        await mongoose.connect(URL)
+        console.log('database connected successfully')
+    }catch(e){
+        console.log(e.message)
+    }
+}
+mongoConnection();
+
 app.get('/', (req, res) => {
-  res.send('Hello World')
+  res.send('Hello World updated')
 })
 
 app.get('/about', (req, res) => {
   res.send('About route 🎉 ')
+})
+app.get('/getusers',async (req,res) => {
+    const result = await user.find({})
+    res.send(json({ans:result}))
 })
 
 app.listen(PORT, () => {
