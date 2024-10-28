@@ -53,7 +53,7 @@ const mongoConnection = async () => {
 }
 mongoConnection();
 app.use(cors({
-  origin:["http://localhost:3000"],
+  origin:["https://daltin-ai.vercel.app"],
   methods:["POST","GET","PUT"],
   credentials:true
 }));
