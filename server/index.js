@@ -59,10 +59,6 @@ app.get('/', (req, res) => {
 app.get('/about', (req, res) => {
   res.send('About route 🎉 ')
 })
-app.get('/getusers',async (req,res) => {
-    const result = await user.find({})
-    res.send(json({ans:result}))
-})
 
 app.listen(PORT, () => {
   console.log(`✅ Server is running on port ${PORT}`);
