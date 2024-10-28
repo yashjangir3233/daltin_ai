@@ -13,6 +13,7 @@ import Backgroundinfo from '../component/Backgroundinfo'
 import Uploaddocs from '../component/Uploaddocs'
 import Finalreview from '../component/Finalreview'
 import axios from 'axios'
+import Confirmation from '../component/Confirmation'
 
 
 const FILE_SIZE = 5 * 1024 * 1024; // 5MB
@@ -120,6 +121,8 @@ const Home = () => {
 
     
     const [currentStep,setCurrentStep] = useState(0);
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [submittedValues, setSubmittedValues] = useState(null)
     const nextStep = () => setCurrentStep(Math.min(currentStep + 1, steps.length - 1))
     const prevStep = () => setCurrentStep(Math.max(currentStep - 1, 0))
     
@@ -174,6 +177,8 @@ const Home = () => {
           const response = await axios.post('https://daltin-ai-8d5v.vercel.app/register',values);
           if(response.status === 200){
             alert('Registration submitted successfully!')
+            setSubmittedValues(values)
+            setIsSubmitted(true)
           }else{
             alert(response.data.err);
           }
@@ -209,6 +214,10 @@ const Home = () => {
             return null
         }
       }    
+
+      if (isSubmitted) {
+        return <Confirmation values={submittedValues} />
+      }
 
   return (
     <div className='md:flex gap-10 items-center px-3 '>
