@@ -62,5 +62,14 @@ userRouter.post('/upload',upload.single('file'),async(req,res) => {
     }
 })
 
+userRouter.get('/users',async (req,res) => {
+    try{
+        const result = await user.find({});
+        res.status(200).json({result:result});
+    }catch(e){
+        res.status(500).json({err:e.message})
+    }
+} )
+
 export default userRouter
 
