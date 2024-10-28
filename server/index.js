@@ -49,15 +49,13 @@ const mongoConnection = async () => {
     }
 }
 mongoConnection();
-
+app.use(cors());
+app.use(bodyParser.urlencoded({extended:true}))
+app.use(bodyParser.json({extended:true}));
 app.use('/',userRouter)
 
 app.get('/', (req, res) => {
-  res.send('Hello World updated again')
-})
-
-app.get('/about', (req, res) => {
-  res.send('About route 🎉 ')
+  res.send('Hello World updated once again')
 })
 
 app.listen(PORT, () => {
