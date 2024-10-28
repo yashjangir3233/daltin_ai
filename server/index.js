@@ -20,6 +20,9 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(bodyParser.json({extended:true}));
+app.get('/',(req,res)=>{
+    res.json('hello');
+})
 app.use(userRouter)
 
 app.use('/fileview',express.static('./upload/images'));
