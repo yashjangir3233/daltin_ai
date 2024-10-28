@@ -19,7 +19,7 @@ const Uploadfield = ({ field, setFieldValue}) => {
       
       try {
         setUploadStatus('uploading')
-        const response = await axios.post('http://localhost:4000/upload', formData, {
+        const response = await axios.post('https://daltin-ai-8d5v.vercel.app/upload', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           },

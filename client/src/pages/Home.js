@@ -171,7 +171,7 @@ const Home = () => {
     const handleSubmit = async (values, actions) => {
         if (currentStep === steps.length - 1) {
           console.log(values)
-          const response = await axios.post('http://localhost:4000/register',values);
+          const response = await axios.post('https://daltin-ai-8d5v.vercel.app/register',values);
           if(response.status === 200){
             alert('Registration submitted successfully!')
           }else{
