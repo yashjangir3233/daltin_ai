@@ -31,7 +31,8 @@
 //     console.log('server running on port 4000')
 // })
 
-const express = require('express');
+// const express = require('express');
+import express from 'express'
 
 const app = express()
 const PORT = 8000
