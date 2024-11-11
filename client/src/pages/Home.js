@@ -37,8 +37,18 @@ const validationSchemas = [
         middleName: Yup.string(),
         lastName: Yup.string().required('Last name is required'),
         email: Yup.string().email('Invalid email').required('Email is required'),
-        phone: Yup.number().required('Phone number is required'),
-        emergencyPhone: Yup.number().required('emergency Phone number is required'),
+        phone: Yup.number()
+        .typeError('Phone number must be a number')  // Ensure it is a number
+        .test('len', 'Phone number must be exactly 10 digits', (value) => {
+          return value && value.toString().length === 10;  // Validate exactly 10 digits
+        })
+        .required('Phone number is required'),
+        emergencyPhone: Yup.number()
+        .typeError('Emergency Phone number must be a number')  // Ensure it is a number
+        .test('len', 'Emergency Phone number must be exactly 10 digits', (value) => {
+          return value && value.toString().length === 10;  // Validate exactly 10 digits
+        })
+        .required('Emergency Phone number is required'),
         marital:Yup.string(),
         gender:Yup.string().required('gender is required'),
         dob:Yup.date().required('date of birth is required')
@@ -47,7 +57,12 @@ const validationSchemas = [
         country:Yup.string().required('country is required'),
         state:Yup.string().required('state is required'),
         city:Yup.string().required('city is required'),
-        postalcode:Yup.number().required('postalcode is required'),
+        postalcode:Yup.number()
+        .typeError('pincode must be a number')  // Ensure it is a number
+        .test('len', 'Pin must be exactly 6 digits', (value) => {
+          return value && value.toString().length === 6;  // Validate exactly 10 digits
+        })
+        .required('Pin code is required'),
         passportNumber:Yup.number().required('passportNumber is required'),
         passportExpiry:Yup.date().required('passportExpiry is required'),
     }),
@@ -69,7 +84,7 @@ const validationSchemas = [
         score: Yup.lazy((value, options) => {
             // If the test is anything but 'None', validate score as required and >= 0
             if (options.parent.test && options.parent.test !== 'None') {
-                return Yup.number().required('Test score is required').min(0, 'Score must be positive');
+                return Yup.number().required('Test score is required').min(0, 'Score must be positive').max(100);
             }
             // Otherwise, score is not required
             return Yup.number().notRequired();
@@ -88,7 +103,31 @@ const validationSchemas = [
           Yup.object({
             qualification: Yup.string().required('Qualification is required'),
             institution: Yup.string().required('Institution is required'),
-            percentage: Yup.number().required('Percentage is required').min(0).max(100),
+            scoretype:Yup.string().required('select type of score to enter the score'),
+            percentage: Yup.lazy((value, options) => {
+              // If the test is anything but 'None', validate score as required and >= 0
+              if (options.parent.scoretype && options.parent.scoretype === 'percentage') {
+                  return Yup.number().required('Percentage is required').min(0, 'Percentage must be positive').max(100);
+              }
+              // Otherwise, score is not required
+              return Yup.number().notRequired();
+          }),
+          cgpafrom10:Yup.lazy((value, options) => {
+            // If the test is anything but 'None', validate score as required and >= 0
+            if (options.parent.scoretype && options.parent.scoretype === 'cgpafrom10') {
+                return Yup.number().required('Cgpa is required').min(0, 'CGPA must be positive').max(10);
+            }
+            // Otherwise, score is not required
+            return Yup.number().notRequired();
+        }),
+        cgpafrom5:Yup.lazy((value, options) => {
+          // If the test is anything but 'None', validate score as required and >= 0
+          if (options.parent.scoretype && options.parent.scoretype === 'cgpafrom5') {
+              return Yup.number().required('Cgpa is required').min(0, 'CGPA must be positive').max(5);
+          }
+          // Otherwise, score is not required
+          return Yup.number().notRequired();
+      }),
             passingYear: Yup.number().required('Passing year is required'),
             country: Yup.string().required('Country is required'),
           })
@@ -152,6 +191,8 @@ const Home = () => {
             qualification: '',
             institution: '',
             percentage: '',
+            cgpafrom10:'',
+            cgpafrom5:'',
             passingYear: '',
             country: '',
           }

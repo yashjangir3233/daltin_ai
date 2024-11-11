@@ -35,7 +35,7 @@ const Education = ({values, handleChange, setFieldValue}) => {
                     </button>
                   )}
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
+                    {/* <div className="space-y-2">
                       <label className="block text-sm font-medium text-gray-700">
                         Qualification<span className="text-red-700 ml-1">*</span>
                       </label>
@@ -46,7 +46,26 @@ const Education = ({values, handleChange, setFieldValue}) => {
                         className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
                       <ErrorMessage name={`educations[${index}].qualification`} component="div" className="text-red-500 text-sm" />
-                    </div>
+                    </div> */}
+                    <div className="space-y-2">
+                    <label htmlFor={`educations[${index}].qualification`} className="block text-sm font-medium text-gray-700">Qualification<span className="text-red-700 ml-1">*</span></label>
+                    <Field
+                      as="select"
+                      id={`educations[${index}].qualification`}
+                      name={`educations[${index}].qualification`}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    >
+                      <option value="">Select qualification</option>
+                      <option value="12th">10th</option>
+                      <option value="10th">12th</option>
+                      <option value="Diploma">Diploma</option>
+                      <option value="Bachelor">Bachelor</option>
+                      <option value="Post Graduation">Post Graduation</option>
+                      <option value="Masters">Masters</option>
+                      <option value="Phd">Phd</option>
+                    </Field>
+                    <ErrorMessage name={`educations[${index}].qualification`} component="div" className="text-red-500 text-sm" />
+                  </div>
 
                     <div className="space-y-2">
                       <label className="block text-sm font-medium text-gray-700">
@@ -62,6 +81,68 @@ const Education = ({values, handleChange, setFieldValue}) => {
                     </div>
 
                     <div className="space-y-2">
+                      <label htmlFor={`educations[${index}].scoretype`} className="block text-sm font-medium text-gray-700">
+                        Score Type<span className="text-red-700 ml-1">*</span>
+                      </label>
+                      <Field
+                        as="select"
+                        id={`educations[${index}].scoretype`}
+                        name={`educations[${index}].scoretype`}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        onChange={(e) => setFieldValue(`educations[${index}].scoretype`, e.target.value)}
+                      >
+                        <option value="">Select score type</option>
+                        <option value="percentage">Percentage</option>
+                        <option value="cgpafrom10">CGPA (out of 10)</option>
+                        <option value="cgpafrom5">CGPA (out of 5)</option>
+                      </Field>
+                      <ErrorMessage name={`educations[${index}].scoretype`} component="div" className="text-red-500 text-sm" />
+                    </div>
+
+                    {values.educations[index].scoretype === 'percentage' && (
+                      <div className="space-y-2">
+                        <label className="block text-sm font-medium text-gray-700">
+                          Percentage<span className="text-red-700 ml-1">*</span>
+                        </label>
+                        <Field
+                          type="number"
+                          name={`educations[${index}].percentage`}
+                          placeholder="score out of 100"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                        <ErrorMessage name={`educations[${index}].percentage`} component="div" className="text-red-500 text-sm" />
+                      </div>
+                    )}
+                    {values.educations[index].scoretype === 'cgpafrom10' && (
+                      <div className="space-y-2">
+                        <label className="block text-sm font-medium text-gray-700">
+                          Cgpa from 10<span className="text-red-700 ml-1">*</span>
+                        </label>
+                        <Field
+                          type="number"
+                          name={`educations[${index}].cgpafrom10`}
+                          placeholder="score out of 10"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                        <ErrorMessage name={`educations[${index}].cgpafrom10`} component="div" className="text-red-500 text-sm" />
+                      </div>
+                    )}
+                    {values.educations[index].scoretype === 'cgpafrom5' && (
+                      <div className="space-y-2">
+                        <label className="block text-sm font-medium text-gray-700">
+                          Cgpa from 5<span className="text-red-700 ml-1">*</span>
+                        </label>
+                        <Field
+                          type="number"
+                          name={`educations[${index}].cgpafrom5`}
+                          placeholder="score out of 5"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                        <ErrorMessage name={`educations[${index}].cgpafrom5`} component="div" className="text-red-500 text-sm" />
+                      </div>
+                    )}
+
+                    {/* <div className="space-y-2">
                       <label className="block text-sm font-medium text-gray-700">
                         Percentage<span className="text-red-700 ml-1">*</span>
                       </label>
@@ -74,7 +155,7 @@ const Education = ({values, handleChange, setFieldValue}) => {
                         className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
                       <ErrorMessage name={`educations[${index}].percentage`} component="div" className="text-red-500 text-sm" />
-                    </div>
+                    </div> */}
 
                     <div className="space-y-2">
                       <label className="block text-sm font-medium text-gray-700">

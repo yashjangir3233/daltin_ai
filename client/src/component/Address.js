@@ -3,17 +3,35 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { format } from 'date-fns'
 import { CalendarIcon, ChevronDown } from 'lucide-react'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
+import axios from 'axios'
 
 
 const MotionDiv = motion.div
 
-const Address = () => {
+const Address = ({setFieldValue}) => {
 
   const [openItem, setOpenItem] = useState("address")
+  const [state,setState] = useState("");
+  const [district,setDistrict] = useState("")
   const [showCalendar, setShowCalendar] = useState(false)
 
   const toggleAccordion = (item) => {
     setOpenItem(openItem === item ? "" : item)
+  }
+
+  const handlePostalCodeChange = async (postalCode) => {
+    try{
+      if(postalCode.length === 6){
+        const response = await axios.get(`https://api.postalpincode.in/pincode/${postalCode}`)
+        console.log(response.data[0].PostOffice[0]);
+        setState(response.data[0].PostOffice[0].State)
+        setDistrict(response.data[0].PostOffice[0].District)
+        setFieldValue('state', response.data[0].PostOffice[0].State)
+        setFieldValue('city', response.data[0].PostOffice[0].District)
+      }
+    }catch(e){
+      alert(e.message)
+    }
   }
 
 
@@ -58,36 +76,6 @@ const Address = () => {
                     <ErrorMessage name="country" component="div" className="text-red-500 text-sm" />
                   </div>
                   <div className="space-y-2">
-                    <label htmlFor="state" className="block text-sm font-medium text-gray-700">Native State<span className="text-red-700 ml-1">*</span></label>
-                    <Field
-                      as="select"
-                      id="state"
-                      name="state"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    >
-                      <option value="">Select state</option>
-                      <option value="ca">California</option>
-                      <option value="ny">New York</option>
-                      <option value="tx">Texas</option>
-                    </Field>
-                    <ErrorMessage name="state" component="div" className="text-red-500 text-sm" />
-                  </div>
-                  <div className="space-y-2">
-                    <label htmlFor="city" className="block text-sm font-medium text-gray-700">Native City<span className="text-red-700 ml-1">*</span></label>
-                    <Field
-                      as="select"
-                      id="city"
-                      name="city"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    >
-                      <option value="">Select city</option>
-                      <option value="sf">San Francisco</option>
-                      <option value="la">Los Angeles</option>
-                      <option value="sd">San Diego</option>
-                    </Field>
-                    <ErrorMessage name="city" component="div" className="text-red-500 text-sm" />
-                  </div>
-                  <div className="space-y-2">
                     <label htmlFor="postalcode" className="block text-sm font-medium text-gray-700">Postal Code<span className="text-red-700 ml-1">*</span></label>
                     <Field
                       type="text"
@@ -95,9 +83,37 @@ const Address = () => {
                       name="postalcode"
                       placeholder="Enter postal code"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      onChange = {(e) => {
+                        const postalCode = e.target.value;
+                        setFieldValue('postalcode',postalCode)
+                        handlePostalCodeChange(postalCode)
+                      }}
                     />
                     <ErrorMessage name="postalcode" component="div" className="text-red-500 text-sm" />
                   </div>
+                  <div className="space-y-2">
+                          <label htmlFor="state" className="block text-sm font-medium text-gray-700">Native State</label>
+                          <Field
+                            type="text"
+                            id="state"
+                            name="state"
+                            value={state}
+                            readOnly
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <label htmlFor="city" className="block text-sm font-medium text-gray-700">Native City</label>
+                          <Field
+                            type="text"
+                            id="city"
+                            name="city"
+                            value={district}
+                            readOnly
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                          />
+                          <ErrorMessage name='city' component="div" className='text-red-600' /> 
+                        </div>
                 </div>
               </MotionDiv>
             )}
